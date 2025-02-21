@@ -11,6 +11,9 @@
     "build": "tsc",
     "prepublishOnly": "npm run build"
   },
+  "bin":{
+    "acache-server": "./dist/index.js"
+  },
   "dependencies": {
     "undici-types": "^6.20.0"
   },
@@ -30,5 +33,10 @@
   "bugs": {
     "url": "https://github.com/Abhibadan/acache-server/issues"
   },
-  "homepage": "https://github.com/Abhibadan/acache-server#readme"
+  "homepage": "https://github.com/Abhibadan/acache-server#readme",
+  "files": [
+    "dist/",
+    "package.json",
+    "README.md"
+  ]
 }
