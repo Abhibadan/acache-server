@@ -64,7 +64,14 @@ const server = net.createServer((socket: net.Socket) => {
       const response = Buffer.from(handleRequest(request));
       let frame: Buffer;
       const responseLength = response.length;
-    
+      /*
+      *
+      * WebSocket protocol requires:
+      ** For payloads ≤125 bytes: Use frame[1] = response.length.
+      ** For payloads 126–65535 bytes: Set frame[1] = 126 and write 2 extra bytes for length.
+      ** For payloads >65535 bytes: Set frame[1] = 127 and write 8 extra bytes for length.
+      *
+      */
       if (responseLength <= 125) {
         frame = Buffer.alloc(2 + responseLength);
         frame[0] = 0x81; // FIN + Text frame opcode
