@@ -2,7 +2,8 @@
 
 import * as net from 'net';
 import crypto from 'crypto';
-import handleRequest, { storeInstance } from './handleRequest';
+import handleRequest, { storeInstance } from './helpers/handleRequest.helper';
+import startupLog from './helpers/startup.helper';
 
 const server = net.createServer((socket: net.Socket) => {
   socket.once('data', (data: Buffer) => {
@@ -103,7 +104,7 @@ const server = net.createServer((socket: net.Socket) => {
   socket.on('end', () => console.log('Client disconnected'));
 });
 const port = parseInt(process.argv[2], 10) || 6379;
-server.listen(port, () => console.log(`Server listening on port ${port}`)).on('error', (error: any) => console.error('Server error:', error.message));
+server.listen(port, () => startupLog(port)).on('error', (error: any) => console.error('Server error:', error.message));
 
 // Handle Ctrl+C (SIGINT)
 process.on('SIGINT', () => {

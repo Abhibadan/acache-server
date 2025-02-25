@@ -1,6 +1,6 @@
 {
   "name": "acache-server",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "This package is for server of acache",
   "main": "./dist/index.js",
   "type": "commonjs",

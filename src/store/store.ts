@@ -243,9 +243,10 @@ export default class Store {
     }
     
     loadData(){
+        const dirPath = path.join(__dirname, '../../storages');
         let filePath;
         try {
-            filePath=path.join(__dirname,'string_dump.json');
+            filePath=path.join(dirPath,'string_dump.json');
             if(fs.existsSync(filePath)){
                 this.#string_store = JSON.parse(fs.readFileSync(filePath, 'utf8'));
                 // console.log('String data loaded successfully');
@@ -255,7 +256,7 @@ export default class Store {
             this.#string_store = {};
         }
         try {
-            filePath=path.join(__dirname, 'boolean_dump.json');
+            filePath=path.join(dirPath, 'boolean_dump.json');
             if(fs.existsSync(filePath)){
                 this.#boolean_store = JSON.parse(fs.readFileSync(filePath, 'utf8'));
                 // console.log('Boolean data loaded successfully');
@@ -265,7 +266,7 @@ export default class Store {
             this.#boolean_store = {};
         }
         try {
-            filePath=path.join(__dirname, 'number_dump.json');
+            filePath=path.join(dirPath, 'number_dump.json');
             if(fs.existsSync(filePath)){
                 this.#number_store = JSON.parse(fs.readFileSync(filePath, 'utf8'));
                 // console.log('Number data loaded successfully');
@@ -275,7 +276,7 @@ export default class Store {
             this.#number_store = {};
         }
         try {
-            filePath=path.join(__dirname, 'object_dump.json');
+            filePath=path.join(dirPath, 'object_dump.json');
             if(fs.existsSync(filePath)){
                 this.#object_store = JSON.parse(fs.readFileSync(filePath, 'utf8'));
                 // console.log('Object data loaded successfully');
@@ -287,34 +288,47 @@ export default class Store {
     }
 
     dump() {
+        const dirPath = path.join(__dirname, '../../storages');
         let filePath;
         try {
-            filePath=path.join(__dirname, 'string_dump.json');
+            filePath=path.join(dirPath, 'string_dump.json');
+            if (!fs.existsSync(dirPath)) {
+                fs.mkdirSync(dirPath, { recursive: true });
+            }
             fs.writeFileSync(filePath, JSON.stringify(this.#string_store, null, 2), 'utf8');
-            console.log('String dump written successfully');
+            // console.log('String dump written successfully');
         } catch (err) {
-            // console.error('Error in writing data:', err);
+            console.error('Error in writing data:', err);
         }
         try {
-            filePath=path.join(__dirname, 'boolean_dump.json');
+            filePath=path.join(dirPath, 'boolean_dump.json');
+            if (!fs.existsSync(dirPath)) {
+                fs.mkdirSync(dirPath, { recursive: true });
+            }
             fs.writeFileSync(filePath, JSON.stringify(this.#boolean_store, null, 2), 'utf8');
-            console.log('Boolean dump written successfully');
+            // console.log('Boolean dump written successfully');
         } catch (err) {
-            // console.error('Error in writing data:', err);
+            console.error('Error in writing data:', err);
         }
         try {
-            filePath=path.join(__dirname, 'number_dump.json');
+            filePath=path.join(dirPath, 'number_dump.json');
+            if (!fs.existsSync(dirPath)) {
+                fs.mkdirSync(dirPath, { recursive: true });
+            }
             fs.writeFileSync(filePath, JSON.stringify(this.#number_store, null, 2), 'utf8');
-            console.log('Number dump written successfully');
+            // console.log('Number dump written successfully');
         } catch (err) {
-            // console.error('Error in writing data:', err);
+            console.error('Error in writing data:', err);
         }
         try {
-            filePath=path.join(__dirname, 'object_dump.json');
+            filePath=path.join(dirPath, 'object_dump.json');
+            if (!fs.existsSync(dirPath)) {
+                fs.mkdirSync(dirPath, { recursive: true });
+            }
             fs.writeFileSync(filePath, JSON.stringify(this.#object_store, null, 2), 'utf8');
-            console.log('Object dump written successfully');
+            // console.log('Object dump written successfully');
         } catch (err) {
-            // console.error('Error in writing data:', err);
+            console.error('Error in writing data:', err);
         }
     }
 }
