@@ -36,7 +36,7 @@ export default class Store {
             data:value,
             ttl:this.#string_store[name]&&this.#string_store[name]['ttl']||(ttl&&Date.now()+(ttl*1000)),
         }
-        console.log(this.#string_store);
+        // console.log(this.#string_store);
     }
     ADDNUMBER(name:string,value:number,ttl:number|null=null){
         this.#number_store[name]={

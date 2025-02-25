@@ -86,7 +86,7 @@ const handleRequest = (data: string) => {
                             case 'sttl':
                                 let ttl_target = value?.[0];
                                 num = Number(value?.[1]);
-                                res = ttl_target && !isNaN(num) ? (storeInstance.SETTTL(key, ttl_target, num), JSON.stringify(1)) : JSON.stringify('Error: Invalid input. Valid key and TTL are required.');
+                                res = ttl_target && !isNaN(num) ? JSON.stringify(storeInstance.SETTTL(key, ttl_target, num)) : JSON.stringify('Error: Invalid input. Valid key and TTL are required.');
                                 break;
                             case 'gttl':
                                 res = JSON.stringify(storeInstance.GETTTL(key, value?.[0]));
