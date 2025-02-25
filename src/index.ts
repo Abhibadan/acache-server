@@ -62,10 +62,29 @@ const server = net.createServer((socket: net.Socket) => {
       // Handle WebSocket requests here using handelRequest 
       // Send a response (simple text frame)
       const response = Buffer.from(handleRequest(request));
-      const frame = Buffer.alloc(2 + response.length);
-      frame[0] = 0x81; // Text frame (FIN bit set)
-      frame[1] = response.length; // No masking for server-to-client
-      response.copy(frame, 2);
+      let frame: Buffer;
+      const responseLength = response.length;
+    
+      if (responseLength <= 125) {
+        frame = Buffer.alloc(2 + responseLength);
+        frame[0] = 0x81; // FIN + Text frame opcode
+        frame[1] = responseLength; // Payload length
+        response.copy(frame, 2);
+      } else if (responseLength <= 65535) {
+        frame = Buffer.alloc(4 + responseLength);
+        frame[0] = 0x81; // FIN + Text frame opcode
+        frame[1] = 126; // Extended payload length indicator
+        frame.writeUInt16BE(responseLength, 2); // Write 16-bit length
+        response.copy(frame, 4);
+      } else {
+        frame = Buffer.alloc(10 + responseLength);
+        frame[0] = 0x81; // FIN + Text frame opcode
+        frame[1] = 127; // Extended payload length indicator
+        frame.writeBigUInt64BE(BigInt(responseLength), 2); // Write 64-bit length
+        response.copy(frame, 10);
+      }
+    
+      // Send WebSocket frame back to the client
       socket.write(frame);
     });
   });
